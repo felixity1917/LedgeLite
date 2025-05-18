@@ -21,3 +21,6 @@ add_executable(LedgeLite ${SOURCES})
 
 # Optional: add warnings
 target_compile_options(LedgeLite PRIVATE -Wall -Wextra -O2)
+
+# Include Debug Symbols
+set(CMAKE_BUILD_TYPE Debug)
