@@ -2,6 +2,9 @@
 build/
 bin/
 
+# Ignore testing data
+testData/
+
 # Optional: ignore distribution packages (uncomment if built dynamically)
 # dist/
 

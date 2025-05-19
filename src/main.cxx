@@ -1,13 +1,24 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+<<<<<<< HEAD
 #include "../include/transaction.hxx"
+=======
+#include <fstream>
+#include "transaction.hxx"
+>>>>>>> 68e35b2ffd4bbb2a9b8f4a159d70750db0760901
 using namespace std;
 
 int startAmount = 0;
 
 int main(int argc, char **argv[]) {
 	cout << "Welcome to LedgeLite." << endl;
+	Transaction transaction;
+	string filePath;
+	cout << "Enter file address of database file: /path/to/database.csv" << endl;
+	// getline(cin, filePath);
+	filePath = "../testData/database.csv";
+	tranction.fetchData(filePath);
 	bool termFlag = false;
 	while (!termFlag) {
 		cout << "Enter Choice" << endl;
@@ -18,11 +29,11 @@ int main(int argc, char **argv[]) {
 		cin >> choice;
 		switch(choice) {
 			case 1: {
-				Transaction::showPrevious();
+				transaction.showPrevious();
 				break;
 			}
 			case 2: {
-				Transaction::addEntry();
+				transaction.addEntry();
 				break;
 			}
 			case 3: {
