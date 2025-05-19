@@ -2,7 +2,7 @@
 #include <string>
 #include <cmath>
 #include <fstream>
-#include "transaction.hxx"
+#include "../include/transaction.hxx"
 using namespace std;
 
 int startAmount = 0;
@@ -10,11 +10,11 @@ int startAmount = 0;
 int main(int argc, char **argv[]) {
 	cout << "Welcome to LedgeLite." << endl;
 	Transaction transaction;
-	string filePath;
+	/*string filePath;
 	cout << "Enter file address of database file: /path/to/database.csv" << endl;
 	// getline(cin, filePath);
 	filePath = "../testData/database.csv";
-	tranction.fetchData(filePath);
+	transaction.fetchData(filePath);*/
 	bool termFlag = false;
 	while (!termFlag) {
 		cout << "Enter Choice" << endl;
@@ -25,7 +25,7 @@ int main(int argc, char **argv[]) {
 		cin >> choice;
 		switch(choice) {
 			case 1: {
-				transaction.showPrevious();
+				/*transaction.showPrevious();*/
 				break;
 			}
 			case 2: {
