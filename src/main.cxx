@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include "transaction.hxx"
+#include "../include/transaction.hxx"
 using namespace std;
 
 int startAmount = 0;

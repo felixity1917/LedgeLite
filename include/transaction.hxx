@@ -3,6 +3,12 @@
 
 class Transaction {
     // ...
+    private:
+    
+    public:
+        void addEntry();
+        void showPrevious();
+
 };
 
 #endif
