@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include "../include/transaction.hxx"
 #include <fstream>
 #include "transaction.hxx"
 using namespace std;
