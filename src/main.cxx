@@ -1,7 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-#include <fstream>
+#include <limits>
 #include "transaction.hxx"
 
 int startAmount = 0;
@@ -19,19 +19,23 @@ int main(int argc, char **argv) {
 		std::cout << "1 - Show Previous Transactions" << std::endl;
 		std::cout << "2 - Add new entry" << std::endl;
 		std::cout << "3 - Exit" << std::endl;
-		int choice;
+		char choice;
 		std::cin >> choice;
-		std::cin.ignore();
+		if (std::cin.eof()) {
+			std::cout << "\nEnd of input detected. Exiting.\n";
+			break;
+		}
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 		switch(choice) {
-			case 1: {
+			case '1': {
 				transaction.showPrevious();
 				break;
 			}
-			case 2: {
+			case '2': {
 				transaction.addEntry();
 				break;
 			}
-			case 3: {
+			case '3': {
 				std::cout << "Thanks for using LedgeLite." << std::endl;
 				return 0;
 			}

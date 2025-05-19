@@ -1,8 +1,9 @@
-#include "transaction.hxx"
+#include <cctype>
 #include <iostream>
+#include <limits>
 #include <string>
 #include <sstream>
-#include <ctype.h>
+#include "transaction.hxx"
 
 void Transaction::addEntry() {
     std::string beneficiary, date, time, category, item;
@@ -15,7 +16,11 @@ void Transaction::addEntry() {
     while(choice != 'S' && choice != 'R' && choice != 's' && choice != 'r') {
         std::cout << "Invalid input, enter S or R: ";
         std::cin >> choice;
-		std::cin.ignore();
+		if (std::cin.eof()) {
+			std::cout << "\nEnd of input detected. Exiting.\n";
+			break;
+		}
+		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << std::endl;
     }
     std::cout << "Input the fields: " << std::endl;
