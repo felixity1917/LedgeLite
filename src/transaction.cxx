@@ -1,41 +1,40 @@
-#include "include/transaction.hxx"
+#include "../include/transaction.hxx"
 #include <iostream>
 #include <sstream>
 #include <ctype.h>
-using namespace std;
 
 void Transaction::addEntry(){
-    string beneficiary,date,time,category,item;
+    std::string beneficiary,date,time,category,item;
     double amount;
     char choice;
-    cout<<"Input S for expense and R for earning: ";
-    cin>>choice;
-    cout<<endl;
+    std::cout<<"Input S for expense and R for earning: ";
+    std::cin>>choice;
+    std::cout<<std::endl;
     while(choice!='S'||choice!='R'||choice!='s'||choice!='r'){
-        cout<<"Invalid input, enter S or R: ";
-        cin>>choice;
-        cout<<endl;
+        std::cout<<"Invalid input, enter S or R: ";
+        std::cin>>choice;
+        std::cout<<std::endl;
     }
-    cout<<"Input the fields: "<<endl;
-    cout<<"Beneficiary: ";
-    getline(cin,beneficiary);
-    cout<<endl;
-    cout<<"Date: ";
-    getline(cin,date);
-    cout<<endl;
-    cout<<"Time: ";
-    getline(cin,time);
-    cout<<endl;
-    cout<<"Category: ";
-    getline(cin,category);
-    cout<<endl;
-    cout<<"Item/(s): ";
-    getline(cin,item);
-    cout<<endl;
+    std::cout<<"Input the fields: "<<std::endl;
+    std::cout<<"Beneficiary: ";
+    getline(std::cin,beneficiary);
+    std::cout<<std::endl;
+    std::cout<<"Date: ";
+    getline(std::cin,date);
+    std::cout<<std::endl;
+    std::cout<<"Time: ";
+    getline(std::cin,time);
+    std::cout<<std::endl;
+    std::cout<<"Category: ";
+    getline(std::cin,category);
+    std::cout<<std::endl;
+    std::cout<<"Item/(s): ";
+    getline(std::cin,item);
+    std::cout<<std::endl;
 
-    cout<<"Beneficiary: "<<beneficiary<<endl;
-    cout<<"Date: "<<date<<endl;
-    cout<<"Time: "<<time<<endl;
-    cout<<"Category: "<<category<<endl;
-    cout<<"Item/(s): "<<item<<endl;
+    std::cout<<"Beneficiary: "<<beneficiary<<std::endl;
+    std::cout<<"Date: "<<date<<std::endl;
+    std::cout<<"Time: "<<time<<std::endl;
+    std::cout<<"Category: "<<category<<std::endl;
+    std::cout<<"Item/(s): "<<item<<std::endl;
 }

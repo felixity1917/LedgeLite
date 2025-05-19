@@ -3,12 +3,11 @@
 #include <cmath>
 #include <fstream>
 #include "../include/transaction.hxx"
-using namespace std;
 
 int startAmount = 0;
 
 int main(int argc, char **argv) {
-	cout << "Welcome to LedgeLite." << endl;
+	std::cout << "Welcome to LedgeLite." << std::endl;
 	Transaction transaction;
 	/*string filePath;
 	cout << "Enter file address of database file: /path/to/database.csv" << endl;
@@ -17,12 +16,12 @@ int main(int argc, char **argv) {
 	transaction.fetchData(filePath);*/
 	bool termFlag = false;
 	while (!termFlag) {
-		cout << "Enter Choice" << endl;
-		cout << "1 - Show Previous Transactions" << endl;
-		cout << "2 - Add new entry" << endl;
-		cout << "3 - Exit" << endl;
+		std::cout << "Enter Choice" << std::endl;
+		std::cout << "1 - Show Previous Transactions" << std::endl;
+		std::cout << "2 - Add new entry" << std::endl;
+		std::cout << "3 - Exit" << std::endl;
 		int choice;
-		cin >> choice;
+		std::cin >> choice;
 		switch(choice) {
 			case 1: {
 				/*transaction.showPrevious();*/
@@ -33,11 +32,11 @@ int main(int argc, char **argv) {
 				break;
 			}
 			case 3: {
-				cout << "Thanks for using LedgeLite." << endl;
+				std::cout << "Thanks for using LedgeLite." << std::endl;
 				return 0;
 			}
 			default: {
-				cout << "Invalid Choice!" << endl;
+				std::cout << "Invalid Choice!" << std::endl;
 			}
 		}
 	}
