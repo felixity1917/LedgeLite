@@ -1,12 +1,9 @@
 #include <iostream>
 #include <string>
 #include <cmath>
-<<<<<<< HEAD
 #include "../include/transaction.hxx"
-=======
 #include <fstream>
 #include "transaction.hxx"
->>>>>>> 68e35b2ffd4bbb2a9b8f4a159d70750db0760901
 using namespace std;
 
 int startAmount = 0;
