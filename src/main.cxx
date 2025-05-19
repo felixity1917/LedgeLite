@@ -7,7 +7,7 @@ using namespace std;
 
 int startAmount = 0;
 
-int main(int argc, char **argv[]) {
+int main(int argc, char **argv) {
 	cout << "Welcome to LedgeLite." << endl;
 	Transaction transaction;
 	/*string filePath;
