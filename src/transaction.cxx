@@ -10,10 +10,12 @@ void Transaction::addEntry() {
     char choice;
     std::cout << "Input S for expense and R for earning: ";
     std::cin >> choice;
+	std::cin.ignore();
     std::cout << std::endl;
-    while(choice != 'S' || choice != 'R' || choice != 's' || choice != 'r') {
+    while(choice != 'S' && choice != 'R' && choice != 's' && choice != 'r') {
         std::cout << "Invalid input, enter S or R: ";
         std::cin >> choice;
+		std::cin.ignore();
         std::cout << std::endl;
     }
     std::cout << "Input the fields: " << std::endl;

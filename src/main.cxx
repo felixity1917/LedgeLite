@@ -14,14 +14,14 @@ int main(int argc, char **argv) {
 	// getline(cin, filePath);
 	filePath = "../testData/database.csv";
 	transaction.fetchData(filePath);
-	bool termFlag = false;
-	while (!termFlag) {
+	while (true) {
 		std::cout << "Enter Choice" << std::endl;
 		std::cout << "1 - Show Previous Transactions" << std::endl;
 		std::cout << "2 - Add new entry" << std::endl;
 		std::cout << "3 - Exit" << std::endl;
 		int choice;
 		std::cin >> choice;
+		std::cin.ignore();
 		switch(choice) {
 			case 1: {
 				transaction.showPrevious();
