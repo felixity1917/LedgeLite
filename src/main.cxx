@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <cmath>
+#include <fstream>
 #include "transaction.hxx"
 using namespace std;
 
@@ -8,6 +9,12 @@ int startAmount = 0;
 
 int main(int argc, char **argv[]) {
 	cout << "Welcome to LedgeLite." << endl;
+	Transaction transaction;
+	string filePath;
+	cout << "Enter file address of database file: /path/to/database.csv" << endl;
+	// getline(cin, filePath);
+	filePath = "../testData/database.csv";
+	tranction.fetchData(filePath);
 	bool termFlag = false;
 	while (!termFlag) {
 		cout << "Enter Choice" << endl;
@@ -18,11 +25,11 @@ int main(int argc, char **argv[]) {
 		cin >> choice;
 		switch(choice) {
 			case 1: {
-				Transaction::showPrevious();
+				transaction.showPrevious();
 				break;
 			}
 			case 2: {
-				Transaction::addEntry();
+				transaction.addEntry();
 				break;
 			}
 			case 3: {
