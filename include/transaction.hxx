@@ -2,9 +2,11 @@
 #define TRANSACTION_HXX
 
 #include <string>
+#include <vector>
 
 class Transaction {
 private:
+	std::vector<std::vector<std::string>> data;
 
 public:
 	void addEntry();

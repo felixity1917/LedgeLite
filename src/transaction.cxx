@@ -3,6 +3,7 @@
 #include <limits>
 #include <string>
 #include <sstream>
+#include <vector>
 #include "transaction.hxx"
 
 void Transaction::addEntry() {
@@ -49,8 +50,17 @@ void Transaction::addEntry() {
 
 void Transaction::showPrevious() {
 	std::cout << "Previous Transactions:" << std::endl;
+	std::cout << std::endl;
+	for (const auto& row : data) {
+		for (const auto& elem : row) {
+			std::cout << elem << " ";
+		}
+	std::cout << "\n";
+	}
+	std::cout << std::endl;
 }
 
 void Transaction::fetchData(const std::string& filePath) {
 	std::cout << "Database Address: " << filePath << std::endl;
+	/* Will use fstream to take the .csv file via a relative address and process it and store it into a 2d vector -> `Transaction::data` */
 }
