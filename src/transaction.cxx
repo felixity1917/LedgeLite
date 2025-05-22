@@ -1,4 +1,5 @@
 #include <cctype>
+#include <fstream>
 #include <iostream>
 #include <limits>
 #include <string>
@@ -52,8 +53,8 @@ void Transaction::showPrevious() {
 	std::cout << "Previous Transactions:" << std::endl;
 	std::cout << std::endl;
 	for (const auto& row : data) {
-		for (const auto& elem : row) {
-			std::cout << elem << " ";
+		for (const auto& cell : row) {
+			std::cout << cell << " ";
 		}
 	std::cout << "\n";
 	}
@@ -62,5 +63,33 @@ void Transaction::showPrevious() {
 
 void Transaction::fetchData(const std::string& filePath) {
 	std::cout << "Database Address: " << filePath << std::endl;
-	/* Will use fstream to take the .csv file via a relative address and process it and store it into a 2d vector -> `Transaction::data` */
+	std::cout << "Processing data..." << std::endl;
+	std::ifstream file(filePath);
+	if (!file.is_open()) {
+		std::cerr << "Error: File could not be opened." << std::endl;
+		/* Extend this further to include further user operation in case of file error. */
+	}
+	std::string line;
+	while (std::getline(file, line)) {
+        std::vector<std::string> row;
+        std::stringstream ss(line);
+        std::string cell;
+        int columnCount = 0;
+
+        while (std::getline(ss, cell, ',')) {
+			std::cout << cell << " " << std::endl;
+            row.push_back(cell);
+            columnCount++;
+        }
+
+        if (columnCount != 6) {
+            std::cerr << "Warning: Skipping malformed line (expected 6 columns): " << line << std::endl;
+            continue;
+        }
+
+        data.push_back(row);
+		std::cout << "\n";
+    }
+
+    file.close();
 }
