@@ -12,7 +12,7 @@ int main(int argc, char **argv) {
 	std::string filePath;
 	std::cout << "Enter file address of database file: /path/to/database.csv" << std::endl;
 	// getline(cin, filePath);
-	filePath = "../testData/database.csv"; // temporary testing data (always run `./build/bin/LedgeLite` when testing)
+	filePath = "testData/database.csv"; // temporary testing data (always run `./build/bin/LedgeLite` when testing)
 	transaction.fetchData(filePath);
 	while (true) {
 		std::cout << "Enter Choice" << std::endl;
@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 				break;
 			}
 			case '2': {
-				transaction.addEntry(filePath);
+				transaction.addEntry();
 				break;
 			}
 			case '3': {
