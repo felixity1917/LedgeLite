@@ -9,7 +9,7 @@ int startAmount = 0;
 int main(int argc, char **argv) {
 	std::cout << "Welcome to LedgeLite." << std::endl;
 	Transaction transaction;
-	std::string filePath;
+	std::string filePath{""};
 	std::cout << "Enter file address of database file: /path/to/database.csv" << std::endl;
 	// getline(cin, filePath);
 	filePath = "testData/database.csv"; // temporary testing data (always run `./build/bin/LedgeLite` when testing)
@@ -19,8 +19,9 @@ int main(int argc, char **argv) {
 		std::cout << "1 - Show Previous Transactions" << std::endl;
 		std::cout << "2 - Add new entry" << std::endl;
 		std::cout << "3 - Exit" << std::endl;
-		char choice;
+		char choice{'\0'};
 		std::cin >> choice;
+		std::cout << "\n";
 		if (std::cin.eof()) {
 			std::cout << "\nEnd of input detected. Exiting.\n";
 			break;

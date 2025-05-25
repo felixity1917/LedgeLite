@@ -8,7 +8,7 @@
 #include "transaction.hxx"
 
 void Transaction::getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes) {
-	char choice;
+	char choice{'\0'};
 
     std::cout << "Payment or Reception? [S/R]: " << std::flush;
     std::cin >> choice;
@@ -54,8 +54,8 @@ void Transaction::getInput(std::string counterparty, double amount, std::string 
   
 
 void Transaction::addEntry() {
-	std::string counterparty, date, time, category, notes;
-	double amount;
+	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""};
+	double amount{0.0};
 	Transaction::getInput(counterparty, amount, date, time, category, notes);
 }
 
@@ -83,8 +83,8 @@ void Transaction::fetchData(const std::string& filePath) {
 	while (std::getline(file, line)) {
         std::vector<std::string> row;
         std::stringstream ss(line);
-        std::string cell;
-        int columnCount = 0;
+        std::string cell{""};
+        int columnCount{0};
 
         while (std::getline(ss, cell, ',')) {
 			std::cout << cell << " " << std::endl;
