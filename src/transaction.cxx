@@ -7,56 +7,56 @@
 #include <vector>
 #include "transaction.hxx"
 
-void Transaction::getInput(std::string &counterparty, std::string &date, std::string &time, std::string &category, std::string &item, double &amount, char &choice){
-    std::cout << "Input S for expense and R for earning: ";
+void Transaction::getInput() {
+	std::string counterparty, date, time, category, notes;
+	double amount;
+	char choice;
+
+    std::cout << "Payment or Reception? [S/R]: " << std::flush;
     std::cin >> choice;
     std::cin.ignore();
-    std::cout << std::endl;
+    std::cout << "\n";
+
     while(choice != 'S' && choice != 'R' && choice != 's' && choice != 'r') {
-        std::cout << "Invalid input, enter S or R: ";
+        std::cerr << "Invalid input, please enter either S or R: ";
         std::cin >> choice;
         if (std::cin.eof()) {
-            std::cout << "\nEnd of input detected. Exiting.\n";
+            std::cerr << "\nEnd of input detected. Exiting.\n";
             break;
         }
         std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-        std::cout << std::endl;
+        std::cout << "\n";
     }
-    std::cout << "Input the fields: " << std::endl;
-    std::cout << "counterparty: ";
-    std::getline(std::cin, counterparty);
-    std::cout << std::endl;
-    std::cout << "Date: ";
-    std::getline(std::cin, date);
-    std::cout << std::endl;
-    std::cout << "Time: ";
-    std::getline(std::cin, time);
-    std::cout << std::endl;
-    std::cout << "Category: ";
-    std::getline(std::cin, category);
-    std::cout << std::endl;
-    std::cout << "Item/(s): ";
-    std::getline(std::cin, item);
-    std::cout << std::endl;
-    std::cout << "Amount: ";
-    std::cin >> amount;
-    std::cout << std::endl;
 
-    std::cout << "Counterparty: " << counterparty << std::endl;
-    std::cout << "Date: " << date << std::endl;
-    std::cout << "Time: " << time << std::endl;
-    std::cout << "Category: " << category << std::endl;
-    std::cout << "Item/(s): " << item << std::endl;
-    std::cout << "Amount: Rs." << amount << std::endl;
+    std::cout << "Please input the following fields..." << std::endl;
+	std::cout << "Name of Counterparty: " << std::flush;
+    std::getline(std::cin, counterparty);
+    std::cout << "Transacted Amount: " << std::flush;
+    std::cin >> amount;
+	std::cin.ignore();
+    std::cout << "Date of Transaction: " << std::flush;
+    std::getline(std::cin, date);
+    std::cout << "Time of Transaction: " << std::flush;
+    std::getline(std::cin, time);
+    std::cout << "Transaction Category: " << std::flush;
+    std::getline(std::cin, category);
+    std::cout << "Additional Notes: " << std::flush;
+    std::getline(std::cin, notes);
+	std::cout << "\n";
+
+	std::cout << "Please Verify the following details: \n";
+    std::cout << "Name of Counterparty: " << counterparty << "\n";
+    std::cout << "Transacted Amount: " << amount << "\n";
+    std::cout << "Date of Transaction: " << date << "\n";
+    std::cout << "Time of Transaction: " << time << "\n";
+    std::cout << "Transaction Category: " << category << "\n";
+    std::cout << "Additional Notes: " << notes << "\n";
+	std::cout << "\n";
 }
   
 
 void Transaction::addEntry() {
-    std::string counterparty, date, time, category, item;
-    double amount;
-    char choice;
-    getInput(counterparty, date, time, category, item, amount,choice);
-    /*test sample*/
+	Transaction::getInput();
 }
 
 void Transaction::showPrevious() {
