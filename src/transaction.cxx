@@ -56,6 +56,7 @@ void Transaction::addEntry() {
     double amount;
     char choice;
     getInput(beneficiary, date, time, category, item, amount,choice);
+    /*test sample*/
 }
 
 void Transaction::showPrevious() {
