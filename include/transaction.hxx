@@ -12,6 +12,9 @@ public:
 	void addEntry();
 	void showPrevious();
 	void fetchData(const std::string& filePath);
+
+private:
+	void getInput(std::string &beneficiary, std::string &date, std::string &time, std::string &category, std::string &item, double &amount, char &choice);
 };
 
 #endif

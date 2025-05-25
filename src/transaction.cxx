@@ -47,6 +47,7 @@ void Transaction::getInput(std::string &beneficiary, std::string &date, std::str
     std::cout << "Time: " << time << std::endl;
     std::cout << "Category: " << category << std::endl;
     std::cout << "Item/(s): " << item << std::endl;
+    std::cout << "Amount: Rs." << amount << std::endl;
 }
   
 
@@ -54,7 +55,7 @@ void Transaction::addEntry() {
     std::string beneficiary, date, time, category, item;
     double amount;
     char choice;
-    getInput(beneficiary, date, time, category, item,amount,choice);
+    getInput(beneficiary, date, time, category, item, amount,choice);
 }
 
 void Transaction::showPrevious() {
