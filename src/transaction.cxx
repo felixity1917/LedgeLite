@@ -7,9 +7,7 @@
 #include <vector>
 #include "transaction.hxx"
 
-void Transaction::getInput() {
-	std::string counterparty, date, time, category, notes;
-	double amount;
+void Transaction::getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes) {
 	char choice;
 
     std::cout << "Payment or Reception? [S/R]: " << std::flush;
@@ -56,7 +54,9 @@ void Transaction::getInput() {
   
 
 void Transaction::addEntry() {
-	Transaction::getInput();
+	std::string counterparty, date, time, category, notes;
+	double amount;
+	Transaction::getInput(counterparty, amount, date, time, category, notes);
 }
 
 void Transaction::showPrevious() {

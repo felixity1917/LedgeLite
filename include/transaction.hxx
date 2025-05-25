@@ -14,7 +14,7 @@ public:
 	void fetchData(const std::string& filePath);
 
 private:
-	void getInput();
+	void getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes);
 };
 
 #endif
