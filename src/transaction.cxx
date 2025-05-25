@@ -60,15 +60,12 @@ void Transaction::addEntry() {
 }
 
 void Transaction::showPrevious() {
-	std::cout << "Previous Transactions:" << std::endl;
-	std::cout << std::endl;
-	for (const auto& row : data) {
-		for (const auto& cell : row) {
-			std::cout << cell << " ";
-		}
+	std::cout << "Previous Transactions:\n";
+	for (const auto& row : database) {
+        std::cout << row.counterparty << " | " << row.amount << " | " << row.date << " | " 
+                  << row.time << " | " << row.category << " | " << row.notes << '\n';
+    }
 	std::cout << "\n";
-	}
-	std::cout << std::endl;
 }
 
 void Transaction::fetchData(const std::string& filePath) {
@@ -79,27 +76,31 @@ void Transaction::fetchData(const std::string& filePath) {
 		std::cerr << "Error: File could not be opened." << std::endl;
 		/* Extend this further to include further user operation in case of file error. */
 	}
-	std::string line;
+	std::string line{""};
 	while (std::getline(file, line)) {
-        std::vector<std::string> row;
+		Transaction::dataRow row;
         std::stringstream ss(line);
-        std::string cell{""};
-        int columnCount{0};
+		std::string amountStr{""};
 
-        while (std::getline(ss, cell, ',')) {
-			std::cout << cell << " " << std::endl;
-            row.push_back(cell);
-            columnCount++;
-        }
-
-        if (columnCount != 6) {
-            std::cerr << "Warning: Skipping malformed line (expected 6 columns): " << line << std::endl;
+		if (!std::getline(ss, row.counterparty, ',')) continue;
+        if (!std::getline(ss, amountStr, ',')) continue;
+        try {
+            row.amount = std::stod(amountStr);
+        } catch (...) {
+            // If amount conversion fails, skip this row
             continue;
         }
+        if (!std::getline(ss, row.date, ',')) continue;
+        if (!std::getline(ss, row.time, ',')) continue;
+        if (!std::getline(ss, row.category, ',')) continue;
+        if (!std::getline(ss, row.notes, ',')) continue;
+		/* Implement actionable measures for corrupt databases */
 
-        data.push_back(row);
-		std::cout << "\n";
+        database.push_back(row);
     }
+	std::cout << "\n";
+
+	Transaction::showPrevious();
 
     file.close();
 }

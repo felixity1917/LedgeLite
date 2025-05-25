@@ -6,7 +6,11 @@
 
 class Transaction {
 private:
-	std::vector<std::vector<std::string>> data;
+	struct dataRow {
+		std::string counterparty, date, time, category, notes;
+		double amount;
+	};
+	std::vector<dataRow> database;
 
 public:
 	void addEntry();
