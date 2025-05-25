@@ -14,7 +14,7 @@ testData/
 *.obj
 
 # Executables (if built in root accidentally)
-cxx-net-speed-monitor
+LedgeLite
 *.exe
 *.out
 
