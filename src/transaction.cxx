@@ -7,22 +7,19 @@
 #include <vector>
 #include "transaction.hxx"
 
-void Transaction::addEntry() {
-    std::string beneficiary, date, time, category, item;
-    double amount;
-    char choice;
+void Transaction::getInput(std::string &beneficiary, std::string &date, std::string &time, std::string &category, std::string &item, double &amount, char &choice){
     std::cout << "Input S for expense and R for earning: ";
     std::cin >> choice;
-	std::cin.ignore();
+    std::cin.ignore();
     std::cout << std::endl;
     while(choice != 'S' && choice != 'R' && choice != 's' && choice != 'r') {
         std::cout << "Invalid input, enter S or R: ";
         std::cin >> choice;
-		if (std::cin.eof()) {
-			std::cout << "\nEnd of input detected. Exiting.\n";
-			break;
-		}
-		std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+        if (std::cin.eof()) {
+            std::cout << "\nEnd of input detected. Exiting.\n";
+            break;
+        }
+        std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
         std::cout << std::endl;
     }
     std::cout << "Input the fields: " << std::endl;
@@ -41,12 +38,23 @@ void Transaction::addEntry() {
     std::cout << "Item/(s): ";
     std::getline(std::cin, item);
     std::cout << std::endl;
+    std::cout << "Amount: ";
+    std::cin >> amount;
+    std::cout << std::endl;
 
     std::cout << "Beneficiary: " << beneficiary << std::endl;
     std::cout << "Date: " << date << std::endl;
     std::cout << "Time: " << time << std::endl;
     std::cout << "Category: " << category << std::endl;
     std::cout << "Item/(s): " << item << std::endl;
+}
+  
+
+void Transaction::addEntry() {
+    std::string beneficiary, date, time, category, item;
+    double amount;
+    char choice;
+    getInput(beneficiary, date, time, category, item,amount,choice);
 }
 
 void Transaction::showPrevious() {
