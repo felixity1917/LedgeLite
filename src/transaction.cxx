@@ -7,7 +7,7 @@
 #include <vector>
 #include "transaction.hxx"
 
-void Transaction::getInput(std::string &beneficiary, std::string &date, std::string &time, std::string &category, std::string &item, double &amount, char &choice){
+void Transaction::getInput(std::string &counterparty, std::string &date, std::string &time, std::string &category, std::string &item, double &amount, char &choice){
     std::cout << "Input S for expense and R for earning: ";
     std::cin >> choice;
     std::cin.ignore();
@@ -23,8 +23,8 @@ void Transaction::getInput(std::string &beneficiary, std::string &date, std::str
         std::cout << std::endl;
     }
     std::cout << "Input the fields: " << std::endl;
-    std::cout << "Beneficiary: ";
-    std::getline(std::cin, beneficiary);
+    std::cout << "counterparty: ";
+    std::getline(std::cin, counterparty);
     std::cout << std::endl;
     std::cout << "Date: ";
     std::getline(std::cin, date);
@@ -42,7 +42,7 @@ void Transaction::getInput(std::string &beneficiary, std::string &date, std::str
     std::cin >> amount;
     std::cout << std::endl;
 
-    std::cout << "Beneficiary: " << beneficiary << std::endl;
+    std::cout << "Counterparty: " << counterparty << std::endl;
     std::cout << "Date: " << date << std::endl;
     std::cout << "Time: " << time << std::endl;
     std::cout << "Category: " << category << std::endl;
@@ -52,10 +52,10 @@ void Transaction::getInput(std::string &beneficiary, std::string &date, std::str
   
 
 void Transaction::addEntry() {
-    std::string beneficiary, date, time, category, item;
+    std::string counterparty, date, time, category, item;
     double amount;
     char choice;
-    getInput(beneficiary, date, time, category, item, amount,choice);
+    getInput(counterparty, date, time, category, item, amount,choice);
     /*test sample*/
 }
 
