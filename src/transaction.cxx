@@ -71,6 +71,13 @@ void Transaction::removeEntry() {
     int serialNo;
     std::cout<<"Enter the serial number of the transaction you would like to remove: "<<std::flush;
     std::cin>>serialNo;
+    while(serialNo>(int)database.size()||serialNo<1){
+        std::cout<<"Enter a valid serial number: "<<std::flush;
+        std::cin>>serialNo;
+    }
+    database.erase(database.begin()+(serialNo-1));
+    std::cout<<"Data at serial no. "<<serialNo<<" has been erased successfully.\n";
+    Transaction::showPrevious();
 }
 
 void Transaction::editEntry() {
