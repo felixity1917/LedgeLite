@@ -48,14 +48,14 @@ void Transaction::getInput(std::string counterparty, double amount, std::string 
 
 	std::cout
 		<< "Entry has been added..."
-		<< "Summary:"
+		<< "\nSummary:"
 		<< "\nName of Counterparty: " << counterparty
 		<< "\nTransacted Amount: " << amount
 		<< "\nDate of Transaction: " << date
 		<< "\nTime of Transaction: " << time
 		<< "\nTransaction Category: " << category
 		<< "\nAdditional Notes: " << notes
-		<< std::endl;
+		<< "\n" << std::endl;
 
 	Transaction::addToSource(counterparty, amount, date, time, category, notes);
 }
@@ -78,7 +78,7 @@ void Transaction::removeEntry() {
 	}
 
 	database.erase(database.begin() + (serialNo - 1));
-	std::cout<<"Data at serial no. " << serialNo << " has been erased successfully." << std::endl;
+	std::cout<<"Data at serial no. " << serialNo << " has been erased successfully.\n" << std::endl;
 
 	Transaction::showPrevious();
 }
