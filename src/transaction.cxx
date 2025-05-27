@@ -7,9 +7,9 @@
 #include <vector>
 #include "transaction.hxx"
 
-int Transaction::addToSource(counterparty, amount, date, time, category, notes){
-    struct dataRow tempData = {counterparty, amount, date, time, category, notes};
-    database.push_back(tempData);   
+void Transaction::addToSource(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes){
+    dataRow tempData = {counterparty, date, time, category, notes, amount};
+    database.push_back(tempData);
 }
 
 void Transaction::getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes) {

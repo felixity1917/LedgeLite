@@ -21,7 +21,7 @@ public:
 
 private:
 	void getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes);
-	void addToSource(counterparty, amount, date, time, category, notes);
+	void addToSource(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes);
 };
 
 #endif
