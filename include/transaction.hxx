@@ -14,6 +14,8 @@ private:
 
 public:
 	void addEntry();
+	void removeEntry();
+	void editEntry();
 	void showPrevious();
 	void fetchData(const std::string& filePath);
 

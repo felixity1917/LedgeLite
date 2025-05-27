@@ -15,10 +15,14 @@ int main(int argc, char **argv) {
 	filePath = "testData/database.csv"; // temporary testing data (always run `./build/bin/LedgeLite` when testing)
 	transaction.fetchData(filePath);
 	while (true) {
-		std::cout << "Enter Choice" << std::endl;
-		std::cout << "1 - Show Previous Transactions" << std::endl;
-		std::cout << "2 - Add new entry" << std::endl;
-		std::cout << "3 - Exit" << std::endl;
+		std::cout
+			<< "Enter Choice\n"
+			<< "1 - Show Previous Transactions\n"
+			<< "2 - Add new entry\n"
+			<< "3 - Remove an Entry\n"
+			<< "4 - Edit an Entry\n"
+			<< "5 - Exit\n"
+			<< std::flush;
 		char choice{'\0'};
 		std::cin >> choice;
 		std::cout << "\n";
@@ -37,6 +41,14 @@ int main(int argc, char **argv) {
 				break;
 			}
 			case '3': {
+				transaction.removeEntry();
+				break;
+			}
+			case '4': {
+				transaction.editEntry();
+				break;
+			}
+			case '5': {
 				std::cout << "Thanks for using LedgeLite." << std::endl;
 				return 0;
 			}

@@ -59,6 +59,14 @@ void Transaction::addEntry() {
 	Transaction::getInput(counterparty, amount, date, time, category, notes);
 }
 
+void Transaction::removeEntry() {
+
+}
+
+void Transaction::editEntry() {
+
+}
+
 void Transaction::showPrevious() {
 	std::cout << "Previous Transactions:\n";
 	for (const auto& row : database) {
