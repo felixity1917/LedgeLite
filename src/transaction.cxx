@@ -68,7 +68,9 @@ void Transaction::addEntry() {
 }
 
 void Transaction::removeEntry() {
-
+    int serialNo;
+    std::cout<<"Enter the serial number of the transaction you would like to remove: "<<std::flush;
+    std::cin>>serialNo;
 }
 
 void Transaction::editEntry() {
