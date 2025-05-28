@@ -7,12 +7,10 @@
 #include <vector>
 #include "transaction.hxx"
 
-void Transaction::addToSource(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes){
-	Transaction::dataRow tempData = {counterparty, date, time, category, notes, amount};
-	database.push_back(tempData);
-}
 
-void Transaction::getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes) {
+void Transaction::addEntry() {
+	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""};
+	double amount{0.0};
 	char choice{'\0'};
 	std::cout << "Payment or Reception? [S/R]: " << std::flush;
 	std::cin >> choice;
@@ -57,14 +55,8 @@ void Transaction::getInput(std::string counterparty, double amount, std::string 
 		<< "\nAdditional Notes: " << notes
 		<< "\n" << std::endl;
 
-	Transaction::addToSource(counterparty, amount, date, time, category, notes);
-}
-
-
-void Transaction::addEntry() {
-	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""};
-	double amount{0.0};
-	Transaction::getInput(counterparty, amount, date, time, category, notes);
+	Transaction::dataRow tempData = {counterparty, date, time, category, notes, amount};
+	database.push_back(tempData);
 }
 
 void Transaction::removeEntry() {
