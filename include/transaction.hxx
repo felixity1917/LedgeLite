@@ -7,8 +7,7 @@
 class Transaction {
 private:
 	struct dataRow {
-		std::string counterparty, date, time, category, notes;
-		double amount;
+		std::string counterparty, date, time, category, notes, amount;
 	};
 	std::vector<dataRow> database;
 
@@ -20,8 +19,9 @@ public:
 	void fetchData(const std::string& filePath);
 
 private:
-	void getInput(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes);
-	void addToSource(std::string counterparty, double amount, std::string date, std::string time, std::string category, std::string notes);
+	void getInput(std::string counterparty, std::string amount, std::string date, std::string time, std::string category, std::string notes);
+	void addToSource(std::string counterparty, std::string amount, std::string date, std::string time, std::string category, std::string notes);
+	void editField(int field, int serialNo);
 };
 
 #endif

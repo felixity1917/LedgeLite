@@ -5,12 +5,12 @@
 #include <string>
 #include <sstream>
 #include <vector>
+#include <algorithm>
 #include "transaction.hxx"
 
 
 void Transaction::addEntry() {
-	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""};
-	double amount{0.0};
+	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""},amount{""};
 	char choice{'\0'};
 	std::cout << "Payment or Reception? [S/R]: " << std::flush;
 	std::cin >> choice;
@@ -32,8 +32,7 @@ void Transaction::addEntry() {
 	std::cout << "Name of Counterparty: " << std::flush;
 	std::getline(std::cin, counterparty);
 	std::cout << "Transacted Amount: " << std::flush;
-	std::cin >> amount;
-	std::cin.ignore();
+	std::getline(std::cin, amount);
 	std::cout << "Date of Transaction: " << std::flush;
 	std::getline(std::cin, date);
 	std::cout << "Time of Transaction: " << std::flush;
@@ -75,7 +74,59 @@ void Transaction::removeEntry() {
 	Transaction::showPrevious();
 }
 
-void Transaction::editEntry() {}
+void Transaction::editField(int field, int serialNo){
+	std::string newData{""};
+	std::cout<<"Enter the new data: "<<std::flush;
+	std::getline(std::cin,newData);
+	switch (field){
+		case 0:
+			database[serialNo-1].counterparty = newData;
+			break;
+		case 1:
+			database[serialNo-1].date = newData;
+			break;
+		case 2:
+			database[serialNo-1].time = newData;
+			break;
+		case 3:
+			database[serialNo-1].category = newData;
+			break;
+		case 4:
+			database[serialNo-1].notes = newData;
+			break;
+		case 5:
+			database[serialNo-1].amount = newData;
+			break;
+		default:
+			std::cout<<"Invalid choice\n";
+	}
+}
+
+void Transaction::editEntry() {
+	std::string serialNo{""};
+	std::cout<<"Enter the serial no. of the entry you would like to edit: "<<std::flush;
+	std::getline(std::cin,serialNo);
+
+	while (std::stoi(serialNo)>(int)database.size() || std::stoi(serialNo)<1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit) ){
+		std::cout<<"Enter a valid serial number: "<<std::flush;
+		std::cin>>serialNo;
+	}
+
+	std::string field;
+	std::cout<<"Enter the name of field you want to edit (counterparty, date, time, category, notes, amount): "<<std::flush;
+	std::getline(std::cin,field);
+
+	std::transform(field.begin(), field.end(), field.begin(), ::tolower);
+	int temp = std::stoi(serialNo);
+	if(field==std::string("counterparty")) editField(0,temp);
+	else if(field==std::string("date")) editField(1,temp);
+	else if(field==std::string("time")) editField(2,temp);
+	else if(field==std::string("category")) editField(3,temp);
+	else if(field==std::string("notes")) editField(4,temp);
+	else if(field==std::string("amount")) editField(5,temp);
+	else std::cout<<"Invalid choice\n";
+
+}
 
 void Transaction::showPrevious() {
 	std::cout
