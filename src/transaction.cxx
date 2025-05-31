@@ -161,13 +161,7 @@ void Transaction::fetchData(const std::string& filePath) {
 		std::string amountStr{""};
 
 		if (!std::getline(ss, row.counterparty, ',')) continue;
-		if (!std::getline(ss, amountStr, ',')) continue;
-		try {
-			row.amount = std::stod(amountStr);
-		} catch (...) {
-			// If amount conversion fails, skip this row
-			continue;
-		}
+		if (!std::getline(ss, row.amount, ',')) continue;
 		if (!std::getline(ss, row.date, ',')) continue;
 		if (!std::getline(ss, row.time, ',')) continue;
 		if (!std::getline(ss, row.category, ',')) continue;
