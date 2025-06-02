@@ -58,13 +58,32 @@ void Transaction::addEntry() {
 }
 
 void Transaction::editEntry() {
-	std::string serialNo{""};
-	std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
-	std::getline(std::cin, serialNo);
+	std::string serialStr{""};
+	int serialNo{0}, errorSwitch{0};
 
-	while (std::stoi(serialNo) > (int)database.size() || std::stoi(serialNo) < 1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit) ) {
-		std::cout << "Enter a valid serial number: " << std::flush;
-		std::cin >> serialNo;
+	while (true) {
+		if (!errorSwitch) {
+			std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
+		} else {
+			std::cout << "Please enter a valid serial no.: " << std::flush;
+		}
+		std::getline(std::cin, serialStr);
+
+		if (!std::all_of(serialStr.begin(), serialStr.end(), ::isdigit)) {
+			std::cerr << "Please enter digits only.\n";
+			errorSwitch = 1;
+			continue;
+		}
+
+		serialNo = std::stoi(serialStr);
+
+		if (serialNo < 1 || serialNo > static_cast<int>(database.size())) {
+			std::cerr << "Serial number out of range.\n";
+			errorSwitch = 1;
+			continue;
+		}
+
+		break;
 	}
 
 	std::string field;
@@ -72,13 +91,13 @@ void Transaction::editEntry() {
 	std::getline(std::cin, field);
 
 	std::transform(field.begin(), field.end(), field.begin(), ::tolower);
-	int temp = std::stoi(serialNo);
-	if (field == std::string("counterparty")) editField(0, temp);
-	else if (field == std::string("amount")) editField(1, temp);
-	else if (field == std::string("date")) editField(2, temp);
-	else if (field == std::string("time")) editField(3, temp);
-	else if (field == std::string("category")) editField(4, temp);
-	else if (field == std::string("notes")) editField(5, temp);
+	// serialNo = std::stoi(serialStr);
+	if (field == std::string("counterparty")) editField(0, serialNo);
+	else if (field == std::string("amount")) editField(1, serialNo);
+	else if (field == std::string("date")) editField(2, serialNo);
+	else if (field == std::string("time")) editField(3, serialNo);
+	else if (field == std::string("category")) editField(4, serialNo);
+	else if (field == std::string("notes")) editField(5, serialNo);
 	else std::cout << "Invalid choice\n";
 }
 
@@ -152,15 +171,35 @@ void Transaction::fetchData(const std::string& filePath) {
 }
 
 void Transaction::removeEntry() {
-	std::string serialNo{""};
-	std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
-	std::getline(std::cin, serialNo);
+	std::string serialStr{""};
+	int serialNo{0}, errorSwitch{0};
 
-	while (std::stoi(serialNo) > (int)database.size() || std::stoi(serialNo) < 1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit)) {
-		std::cout << "Enter a valid serial number: " << std::flush;
-		std::cin >> serialNo;
+	while (true) {
+		if (!errorSwitch) {
+			std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
+		} else {
+			std::cout << "Please enter a valid serial no.: " << std::flush;
+		}
+		std::getline(std::cin, serialStr);
+
+		if (!std::all_of(serialStr.begin(), serialStr.end(), ::isdigit)) {
+			std::cerr << "Please enter digits only.\n";
+			errorSwitch = 1;
+			continue;
+		}
+
+		serialNo = std::stoi(serialStr);
+
+		if (serialNo < 1 || serialNo > static_cast<int>(database.size())) {
+			std::cerr << "Serial number out of range.\n";
+			errorSwitch = 1;
+			continue;
+		}
+
+		break;
 	}
 
+	// serialNo = std::stoi(serialStr);
 	database.erase(database.begin() + (serialNo - 1));
 	std::cout << "Data at serial no. " << serialNo << " has been erased successfully.\n" << std::endl;
 
