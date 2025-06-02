@@ -8,9 +8,8 @@
 #include <algorithm>
 #include "transaction.hxx"
 
-
 void Transaction::addEntry() {
-	std::string counterparty{""}, date{""}, time{""}, category{""}, notes{""},amount{""};
+	std::string counterparty{""}, amount{""}, date{""}, time{""}, category{""}, notes{""};
 	char choice{'\0'};
 	std::cout << "Payment or Reception? [S/R]: " << std::flush;
 	std::cin >> choice;
@@ -58,102 +57,77 @@ void Transaction::addEntry() {
 	database.push_back(tempData);
 }
 
-void Transaction::removeEntry() {
-	int serialNo{0};
-	std::cout << "Enter the serial number of the transaction you would like to remove: " << std::flush;
-	std::cin >> serialNo;
+void Transaction::editEntry() {
+	std::string serialNo{""};
+	std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
+	std::getline(std::cin, serialNo);
 
-	while (serialNo > (int)database.size() || serialNo < 1){
+	while (std::stoi(serialNo) > (int)database.size() || std::stoi(serialNo) < 1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit) ) {
 		std::cout << "Enter a valid serial number: " << std::flush;
 		std::cin >> serialNo;
 	}
 
-	database.erase(database.begin() + (serialNo - 1));
-	std::cout<<"Data at serial no. " << serialNo << " has been erased successfully.\n" << std::endl;
+	std::string field;
+	std::cout << "Enter the name of field you want to edit (counterparty, amount, date, time, category, notes): " << std::flush;
+	std::getline(std::cin, field);
 
-	Transaction::showPrevious();
+	std::transform(field.begin(), field.end(), field.begin(), ::tolower);
+	int temp = std::stoi(serialNo);
+	if (field == std::string("counterparty")) editField(0, temp);
+	else if (field == std::string("amount")) editField(1, temp);
+	else if (field == std::string("date")) editField(2, temp);
+	else if (field == std::string("time")) editField(3, temp);
+	else if (field == std::string("category")) editField(4, temp);
+	else if (field == std::string("notes")) editField(5, temp);
+	else std::cout << "Invalid choice\n";
 }
 
 void Transaction::editField(int field, int serialNo){
 	std::string newData{""};
-	std::cout<<"Enter the new data: "<<std::flush;
-	std::getline(std::cin,newData);
-	switch (field){
-		case 0:
-			database[serialNo-1].counterparty = newData;
+	std::cout << "Enter the new data: " << std::flush;
+	std::getline(std::cin, newData);
+
+	switch (field) {
+		case 0: {
+			database[serialNo - 1].counterparty = newData;
 			break;
-		case 1:
-			database[serialNo-1].date = newData;
+		}
+		case 1: {
+			database[serialNo - 1].amount = newData;
 			break;
-		case 2:
-			database[serialNo-1].time = newData;
+		}
+		case 2: {
+			database[serialNo - 1].date = newData;
 			break;
-		case 3:
-			database[serialNo-1].category = newData;
+		}
+		case 3: {
+			database[serialNo - 1].time = newData;
 			break;
-		case 4:
-			database[serialNo-1].notes = newData;
+		}
+		case 4: {
+			database[serialNo - 1].category = newData;
 			break;
-		case 5:
-			database[serialNo-1].amount = newData;
+		}
+		case 5: {
+			database[serialNo - 1].notes = newData;
 			break;
-		default:
-			std::cout<<"Invalid choice\n";
+		}
+		default: {
+			std::cout << "Invalid choice\n";
+		}
 	}
-}
-
-void Transaction::editEntry() {
-	std::string serialNo{""};
-	std::cout<<"Enter the serial no. of the entry you would like to edit: "<<std::flush;
-	std::getline(std::cin,serialNo);
-
-	while (std::stoi(serialNo)>(int)database.size() || std::stoi(serialNo)<1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit) ){
-		std::cout<<"Enter a valid serial number: "<<std::flush;
-		std::cin>>serialNo;
-	}
-
-	std::string field;
-	std::cout<<"Enter the name of field you want to edit (counterparty, date, time, category, notes, amount): "<<std::flush;
-	std::getline(std::cin,field);
-
-	std::transform(field.begin(), field.end(), field.begin(), ::tolower);
-	int temp = std::stoi(serialNo);
-	if(field==std::string("counterparty")) editField(0,temp);
-	else if(field==std::string("date")) editField(1,temp);
-	else if(field==std::string("time")) editField(2,temp);
-	else if(field==std::string("category")) editField(3,temp);
-	else if(field==std::string("notes")) editField(4,temp);
-	else if(field==std::string("amount")) editField(5,temp);
-	else std::cout<<"Invalid choice\n";
-
-}
-
-void Transaction::showPrevious() {
-	std::cout
-		<< "Previous Transactions:\n"
-		<< "S. No. | Payer/Payee | Amount | Date | Time | Category | Notes\n";
-	int i{1};
-	for (const auto& row : database) {
-		std::cout
-			<< i++ << ". | "
-			<< row.counterparty << " | "
-			<< row.amount << " | "
-			<< row.date << " | "
-			<< row.time << " | "
-			<< row.category << " | "
-			<< row.notes << '\n';
-	}
-	std::cout << "\n";
 }
 
 void Transaction::fetchData(const std::string& filePath) {
 	std::cout << "Database Address: " << filePath << std::endl;
 	std::cout << "Processing data..." << std::endl;
+
 	std::ifstream file(filePath);
 	if (!file.is_open()) {
 		std::cerr << "Error: File could not be opened." << std::endl;
 		/* Extend this further to include further user operation in case of file error. */
 	}
+
 	std::string line{""};
 	while (std::getline(file, line)) {
 		Transaction::dataRow row;
@@ -175,4 +149,39 @@ void Transaction::fetchData(const std::string& filePath) {
 	Transaction::showPrevious();
 
 	file.close();
+}
+
+void Transaction::removeEntry() {
+	std::string serialNo{""};
+	std::cout << "Enter the serial no. of the entry you would like to edit: " << std::flush;
+	std::getline(std::cin, serialNo);
+
+	while (std::stoi(serialNo) > (int)database.size() || std::stoi(serialNo) < 1 || !std::all_of(serialNo.begin(), serialNo.end(), ::isdigit)) {
+		std::cout << "Enter a valid serial number: " << std::flush;
+		std::cin >> serialNo;
+	}
+
+	database.erase(database.begin() + (serialNo - 1));
+	std::cout << "Data at serial no. " << serialNo << " has been erased successfully.\n" << std::endl;
+
+	Transaction::showPrevious();
+}
+
+void Transaction::showPrevious() {
+	std::cout
+		<< "Previous Transactions:\n"
+		<< "S. No. | Payer/Payee | Amount | Date | Time | Category | Notes\n";
+
+	int i{1};
+	for (const auto& row : database) {
+		std::cout
+			<< i++ << ". | "
+			<< row.counterparty << " | "
+			<< row.amount << " | "
+			<< row.date << " | "
+			<< row.time << " | "
+			<< row.category << " | "
+			<< row.notes << '\n';
+	}
+	std::cout << "\n";
 }
