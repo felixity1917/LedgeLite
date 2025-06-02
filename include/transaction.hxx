@@ -17,6 +17,7 @@ public:
 	void editEntry();
 	void showPrevious();
 	void fetchData(const std::string& filePath);
+	void writeData(const std::string& filePath);
 
 private:
 	void editField(int field, int serialNo);

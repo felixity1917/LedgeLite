@@ -21,7 +21,8 @@ int main(int argc, char **argv) {
 			<< "2 - Add new entry\n"
 			<< "3 - Remove an Entry\n"
 			<< "4 - Edit an Entry\n"
-			<< "5 - Exit\n"
+			<< "5 - Save Changes & Exit\n"
+			<< "6 - Exit without Saving Changes\n"
 			<< std::flush;
 		char choice{'\0'};
 		std::cin >> choice;
@@ -49,11 +50,16 @@ int main(int argc, char **argv) {
 				break;
 			}
 			case '5': {
-				std::cout << "Thanks for using LedgeLite." << std::endl;
+				transaction.writeData(filePath);
+				std::cout << "Changes have been Saved.\nThanks for using LedgeLite." << std::endl;
+				return 0;
+			}
+			case '6': {
+				std::cout << "Changes were not Saved.\nThanks for using LedgeLite." << std::endl;
 				return 0;
 			}
 			default: {
-				std::cout << "Invalid Choice!" << std::endl;
+				std::cerr << "Invalid Choice!\n";
 			}
 		}
 	}

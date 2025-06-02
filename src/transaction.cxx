@@ -109,26 +109,32 @@ void Transaction::editField(int field, int serialNo){
 	switch (field) {
 		case 0: {
 			database[serialNo - 1].counterparty = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		case 1: {
 			database[serialNo - 1].amount = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		case 2: {
 			database[serialNo - 1].date = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		case 3: {
 			database[serialNo - 1].time = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		case 4: {
 			database[serialNo - 1].category = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		case 5: {
 			database[serialNo - 1].notes = newData;
+			std::cout << "Data has been changed successfully\n" << std::endl;
 			break;
 		}
 		default: {
@@ -143,11 +149,12 @@ void Transaction::fetchData(const std::string& filePath) {
 
 	std::ifstream file(filePath);
 	if (!file.is_open()) {
-		std::cerr << "Error: File could not be opened." << std::endl;
+		std::cerr << "Error opening file: " << filePath << "\n";
 		/* Extend this further to include further user operation in case of file error. */
 	}
 
 	std::string line{""};
+	std::getline(file, line); /* Skip Header */
 	while (std::getline(file, line)) {
 		Transaction::dataRow row;
 		std::stringstream ss(line);
@@ -223,4 +230,26 @@ void Transaction::showPrevious() {
 			<< row.notes << '\n';
 	}
 	std::cout << "\n";
+}
+
+void Transaction::writeData(const std::string& filePath) {
+	std::ofstream file(filePath);
+	if (!file.is_open()) {
+		std::cerr << "Error opening file: " << filePath << "\n";
+		/* Extend this further to include further user operation in case of file error. */
+	}
+
+	file << "counterparty,amount,date,time,category,notes\n";
+
+	for (const auto& row : database) {
+		file
+			<< row.counterparty << ","
+			<< row.amount << ","
+			<< row.date << ","
+			<< row.time << ","
+			<< row.category << ","
+			<< row.notes << "\n";
+	}
+
+	file.close();
 }
