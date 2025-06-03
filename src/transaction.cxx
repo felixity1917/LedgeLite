@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <algorithm>
+#include <regex>
 #include "transaction.hxx"
 
 void Transaction::addEntry() {
@@ -34,6 +35,10 @@ void Transaction::addEntry() {
 	std::getline(std::cin, amount);
 	std::cout << "Date of Transaction: " << std::flush;
 	std::getline(std::cin, date);
+	while(!std::regex_match(date,std::regex(R"(^(0[1-9]|[12][0-9]|3[01])\.(0[1-9]|1[0-2])\.(1|2)\d{3}$)"))){
+		std::cout<<"The entered date is invalid, please enter again: "<<std::flush;
+		std::getline(std::cin,date);
+	}
 	std::cout << "Time of Transaction: " << std::flush;
 	std::getline(std::cin, time);
 	std::cout << "Transaction Category: " << std::flush;
