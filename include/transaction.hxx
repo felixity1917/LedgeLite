@@ -23,4 +23,4 @@ private:
 	void editField(int field, int serialNo);
 };
 
-#endif
+#endif // !TRANSACTION_HXX
