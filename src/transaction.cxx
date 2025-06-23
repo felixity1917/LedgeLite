@@ -9,45 +9,97 @@
 #include <regex>
 #include <sqlite3.h>
 #include "transaction.hxx"
-
-void Transaction::connectDatabase(const std::string& filePath) {
-	dbPath = filePath;
-	int ReturnCode = sqlite3_open(dbPath.c_str(), &db);
-	if (ReturnCode) {
-		std::cerr << "Can't open database: " << sqlite3_errmsg(db) << "\n";
-		exit(1);
-	}
-
-	std::string createTable = R"(
-        CREATE TABLE IF NOT EXISTS transactions (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            counterparty TEXT,
-            amount TEXT,
-            date TEXT,
-            time TEXT,
-            category TEXT,
-            notes TEXT
-        );
-    )";
-	executeSQL(createTable);
-}
-
-void Transaction::executeSQL(const std::string& query) {
-	char* errMsg = nullptr;
-	int ReturnCode = sqlite3_exec(db, query.c_str(), 0, 0, &errMsg);
-	if (ReturnCode != SQLITE_OK) {
-		std::cerr << "SQL error: " << errMsg << "\n";
-		sqlite3_free(errMsg);
-	}
-}
-
-int Transaction::printCallback(void* NotUsed, int argc, char** argv, char** azColName) {
+int printCallback(void*, int argc, char** argv, char**) {
 	for (int i = 0; i < argc; i++) {
-		std::cout << azColName[i] << ": " << (argv[i] ? argv[i] : "NULL") << " | ";
+		std::cout << (argv[i] ? argv[i] : "NULL");
+		if (i < argc - 1) std::cout << " | ";
 	}
 	std::cout << "\n";
 	return 0;
 }
+void Transaction::executeSQL(const std::string& sql) {
+	char* errMsg = nullptr;
+	if (sqlite3_exec(db, sql.c_str(), nullptr, 0, &errMsg) != SQLITE_OK) {
+		std::cerr << "SQL execution failed: " << errMsg << std::endl;
+		sqlite3_free(errMsg);
+	}
+}
+void Transaction::connectDatabase(const std::string& filePath) {
+	if (sqlite3_open(filePath.c_str(), &db) != SQLITE_OK) {
+		std::cerr << "Cannot open database: " << sqlite3_errmsg(db) << std::endl;
+		exit(EXIT_FAILURE);
+	}
+	else {
+		std::cout << "Database connection successful.\n";
+	}
+}
+
+bool Transaction::signup() {
+	std::string username, password;
+	std::cout << "Choose a username: ";
+	std::getline(std::cin, username);
+	std::cout << "Choose a password: ";
+	std::getline(std::cin, password);
+
+	std::stringstream insertQuery;
+	insertQuery << "INSERT INTO users (username, password) VALUES ('" << username << "', '" << password << "');";
+
+	char* errMsg = nullptr;
+	if (sqlite3_exec(db, insertQuery.str().c_str(), nullptr, 0, &errMsg) != SQLITE_OK) {
+		std::cerr << "Signup failed: " << errMsg << std::endl;
+		sqlite3_free(errMsg);
+		return false;
+	}
+
+	std::string userTable = "transactions_" + username;
+	std::stringstream createTable;
+	createTable << "CREATE TABLE IF NOT EXISTS " << userTable << " (" << "id INTEGER PRIMARY KEY AUTOINCREMENT, " << "counterparty TEXT, amount TEXT, date TEXT, time TEXT, category TEXT, notes TEXT);";
+
+	if (sqlite3_exec(db, createTable.str().c_str(), nullptr, 0, &errMsg) != SQLITE_OK) {
+		std::cerr << "Table creation failed: " << errMsg << std::endl;
+		sqlite3_free(errMsg);
+		return false;
+	}
+
+	currentUser = username;
+	currentTable = userTable;
+	std::cout << "Signup successful. Welcome, " << username << "!\n";
+	return true;
+}
+
+bool Transaction::login() {
+	std::string username, password;
+	std::cout << "Username: ";
+	std::getline(std::cin, username);
+	std::cout << "Password: ";
+	std::getline(std::cin, password);
+
+	std::stringstream query;
+	query << "SELECT COUNT(*) FROM users WHERE username = '" << username << "' AND password = '" << password << "';";
+
+	int userExists = 0;
+	auto callback = [](void* data, int argc, char** argv, char**) -> int {
+		*static_cast<int*>(data) = std::stoi(argv[0]);
+		return 0;
+		};
+
+	if (sqlite3_exec(db, query.str().c_str(), callback, &userExists, nullptr) != SQLITE_OK) {
+		std::cerr << "Login query failed.\n";
+		return false;
+	}
+
+	if (userExists) {
+		currentUser = username;
+		currentTable = "transactions_" + username;
+		std::cout << "Login successful. Welcome back, " << username << "!\n";
+		return true;
+	}
+	else {
+		std::cout << "Incorrect credentials.\n";
+		return false;
+	}
+}
+
 
 void Transaction::addEntry() {
 	std::string counterparty{ "" }, amount{ "" }, date{ "" }, time{ "" }, category{ "" }, notes{ "" };
@@ -106,7 +158,7 @@ void Transaction::addEntry() {
 		<< "'" << time << "', "
 		<< "'" << category << "', "
 		<< "'" << notes << "');";
-	executeSQL(ss.str());
+	;
 }
 
 void Transaction::showPrevious() {
@@ -254,3 +306,4 @@ void Transaction::search() {
 	std::cout << "\nFiltered Results:\n";
 	sqlite3_exec(db, query.str().c_str(), printCallback, 0, nullptr);
 }
+

@@ -6,18 +6,24 @@
 #include <sqlite3.h>
 class Transaction {
 private:
-	sqlite3* db;
-	std::string dbPath;
-public:
-	void addEntry();
-	void removeEntry();
-	void editEntry();
-	void showPrevious();
-	void connectDatabase(const std::string& filePath);
-	void search();
-	private:
-	void executeSQL(const std::string& query);
-	static int printCallback(void* NotUsed, int argc, char** argv, char** azColName);
-};
+    sqlite3* db = nullptr;              
+    std::string currentUser;            
+    std::string currentTable;           
 
+public:
+    void connectDatabase(const std::string& filePath); 
+    bool signup();                                     
+    bool login();                                      
+    bool isLoggedIn() const { return !currentUser.empty(); } 
+
+    void addEntry();
+    void removeEntry();
+    void editEntry();
+    void showPrevious();
+    void search();
+    void executeSQL(const std::string& sql);
+
+private:
+    void editField(int field, int serialNo);
+};
 #endif // !TRANSACTION_HXX

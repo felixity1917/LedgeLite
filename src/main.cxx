@@ -7,16 +7,36 @@
 int main(int argc, char** argv) {
 	std::cout << "Welcome to LedgeLite." << std::endl;
 	Transaction transaction;
-	std::string filePath;
+	std::cout << "Enter path to authentication database (e.g., users.db): ";
+	std::string authDbPath;
+	std::getline(std::cin, authDbPath);
+	transaction.connectDatabase(authDbPath);
 
-	std::cout << "Enter file address of SQLite DB (e.g., testData/database.db): ";
-	std::getline(std::cin, filePath);
+	while (true) {
+		std::cout << "1. Login\n2. Signup\n3. Exit\nChoose: ";
+		std::string choice;
+		std::getline(std::cin, choice);
 
-	if (filePath.empty()) {
-		filePath = "testData/database.db";  
+		switch (choice[0]) {
+			case '1':
+				if (transaction.login()) goto logged_in;
+				break;
+				//continue;
+			case '2':
+				if (transaction.signup()) goto logged_in;
+				break;
+				//continue;
+			case '3':
+				return 0;
+			default:
+				std::cout << "Invalid input.\n";
+			}
 	}
-
-	transaction.connectDatabase(filePath);  
+	logged_in:
+	std::cout << "Enter path to ledger database (e.g., ledger.db): ";
+	std::string ledgerdb;
+	std::getline(std::cin, ledgerdb);
+	transaction.connectDatabase(ledgerdb);
 
 	while (true) {
 		std::cout
